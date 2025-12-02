@@ -1,0 +1,102 @@
+DEBUG uv 0.9.14 (Homebrew 2025-12-01)
+DEBUG Acquired shared lock for `/Users/mihaimac/.cache/uv`
+DEBUG Found project root: `/Users/mihaimac/pygame_proj`
+DEBUG No workspace root found, using project root
+DEBUG Acquired lock for `/Users/mihaimac/pygame_proj`
+DEBUG Reading Python requests from version file at `/Users/mihaimac/pygame_proj/.python-version`
+DEBUG Using Python request `3.14` from version file at `.python-version`
+DEBUG Checking for Python environment at: `.venv`
+DEBUG The project environment's Python version satisfies the request: `Python 3.14`
+DEBUG Released lock at `/var/folders/yp/9slfm77x31q3r95rrpzfbym40000gn/T/uv-84d5e7c10e3592db.lock`
+DEBUG Acquired lock for `.venv`
+DEBUG Using request timeout of 30s
+DEBUG Found static `pyproject.toml` for: pygame-proj @ file:///Users/mihaimac/pygame_proj
+DEBUG No workspace root found, using project root
+DEBUG Solving with installed Python version: 3.14
+DEBUG Solving with target Python version: >=3.12
+DEBUG Adding direct dependency: pygame-proj*
+DEBUG Searching for a compatible version of pygame-proj @ file:///Users/mihaimac/pygame_proj (*)
+DEBUG Adding direct dependency: pygame>=2.6.1, <2.6.1+
+DEBUG Found fresh response for: https://pypi.org/simple/pygame/
+DEBUG Searching for a compatible version of pygame (>=2.6.1, <2.6.1+)
+DEBUG Selecting: pygame==2.6.1 [compatible] (pygame-2.6.1-cp312-cp312-macosx_10_9_x86_64.whl)
+DEBUG Found fresh response for: https://files.pythonhosted.org/packages/92/16/2c602c332f45ff9526d61f6bd764db5096ff9035433e2172e2d2cadae8db/pygame-2.6.1-cp312-cp312-macosx_10_9_x86_64.whl.metadata
+DEBUG Tried 2 versions: pygame 1, pygame-proj 1
+DEBUG all marker environments resolution took 0.004s
+Resolved 2 packages in 10ms
+DEBUG Using request timeout of 30s
+DEBUG Identified uncached distribution: pygame==2.6.1
+DEBUG Acquired lock for `/Users/mihaimac/.cache/uv/sdists-v9/pypi/pygame/2.6.1`
+DEBUG Found fresh response for: https://files.pythonhosted.org/packages/49/cc/08bba60f00541f62aaa252ce0cfbd60aebd04616c0b9574f755b583e45ae/pygame-2.6.1.tar.gz
+   Building pygame==2.6.1
+DEBUG Building: pygame==2.6.1
+DEBUG Not using uv build backend direct build for source tree `pygame==2.6.1`, failed to parse pyproject.toml: failed to open file `/Users/mihaimac/.cache/uv/sdists-v9/pypi/pygame/2.6.1/89McHIvEKp9siuyrATLRU/src/pyproject.toml`: No such file or directory (os error 2)
+DEBUG Assessing Python executable as base candidate: /Library/Frameworks/Python.framework/Versions/3.14/bin/python3.14
+DEBUG Reusing existing build environment for: pygame==2.6.1
+DEBUG Using base executable for virtual environment: /Library/Frameworks/Python.framework/Versions/3.14/bin/python3.14
+DEBUG Resolving build requirements
+DEBUG Solving with installed Python version: 3.14
+DEBUG Solving with target Python version: >=3.14
+DEBUG Adding direct dependency: setuptools>=40.8.0
+DEBUG Found fresh response for: https://pypi.org/simple/setuptools/
+DEBUG Searching for a compatible version of setuptools (>=40.8.0)
+DEBUG Selecting: setuptools==80.9.0 [compatible] (setuptools-80.9.0-py3-none-any.whl)
+DEBUG Found fresh response for: https://files.pythonhosted.org/packages/a3/dc/17031897dae0efacfea57dfd3a82fdd2a2aeb58e0ff71b77b87e44edc772/setuptools-80.9.0-py3-none-any.whl.metadata
+DEBUG Tried 1 versions: setuptools 1
+DEBUG marker environment resolution took 0.001s
+DEBUG Installing in setuptools==80.9.0 in /Users/mihaimac/.cache/uv/builds-v0/.tmp6YuM9m
+DEBUG Registry requirement already cached: setuptools==80.9.0
+DEBUG Installing build requirement: setuptools==80.9.0
+DEBUG Creating PEP 517 build environment
+DEBUG Calling `setuptools.build_meta:__legacy__.get_requires_for_build_wheel()`
+DEBUG Skipping Cython compilation
+DEBUG Locking the source tree for setuptools
+DEBUG Acquired lock for `/Users/mihaimac/.cache/uv/sdists-v9/pypi/pygame/2.6.1/89McHIvEKp9siuyrATLRU/src`
+DEBUG Calling `setuptools.build_meta:__legacy__.build_wheel("/Users/mihaimac/.cache/uv/builds-v0/.tmp297QwQ", {}, None)`
+DEBUG ld: warning: search path '/NEED_LIB_PATH_FIX' not found
+DEBUG ld: library 'SDL' not found
+DEBUG clang: error: linker command failed with exit code 1 (use -v to see invocation)
+DEBUG error: command '/usr/bin/clang' failed with exit code 1
+DEBUG Skipping Cython compilation
+DEBUG 
+DEBUG ---
+DEBUG For help with compilation see:
+DEBUG     https://www.pygame.org/wiki/MacCompile
+DEBUG To contribute to pygame development see:
+DEBUG     https://www.pygame.org/contribute.html
+DEBUG ---
+DEBUG 
+DEBUG Released lock at `/var/folders/yp/9slfm77x31q3r95rrpzfbym40000gn/T/uv-setuptools-7bc5699eb88b82a9.lock`
+DEBUG Released lock at `/Users/mihaimac/.cache/uv/sdists-v9/pypi/pygame/2.6.1/.lock`
+DEBUG Reverting changes to `pyproject.toml`
+DEBUG Removing `uv.lock`
+  × Failed to build `pygame==2.6.1`
+  ├─▶ The build backend returned an error
+  ╰─▶ Call to `setuptools.build_meta:__legacy__.build_wheel` failed (exit
+      status: 1)
+
+      [stdout]
+      Skipping Cython compilation
+
+      ---
+      For help with compilation see:
+          https://www.pygame.org/wiki/MacCompile
+      To contribute to pygame development see:
+          https://www.pygame.org/contribute.html
+      ---
+
+
+      [stderr]
+      ld: warning: search path '/NEED_LIB_PATH_FIX' not found
+      ld: library 'SDL' not found
+      clang: error: linker command failed with exit code 1 (use -v to
+      see invocation)
+      error: command '/usr/bin/clang' failed with exit code 1
+
+      hint: This usually indicates a problem with the package or the
+      build environment.
+  help: If you want to add the package regardless of the failed
+        resolution, provide the `--frozen` flag to skip locking and
+        syncing.
+DEBUG Released lock at `/Users/mihaimac/pygame_proj/.venv/.lock`
+DEBUG Released lock at `/Users/mihaimac/.cache/uv/.lock`
