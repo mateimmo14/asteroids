@@ -6,11 +6,12 @@ import constants
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from logger import log_event, log_state
-from player import Player
+from player import *
 from shoot import Shot
 
 
 def main():
+    playtime = 0
     score = 0
     pygame.init()
     title_font = pygame.font.SysFont(None, 100)  # Big text
@@ -39,6 +40,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+
 
         updatable.update(dt)
 
