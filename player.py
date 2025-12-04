@@ -1,21 +1,15 @@
+import sys
+
 import pygame
 
+import constants
 from circleshape import CircleShape
-from constants import (
-    LINE_WIDTH,
-    PLAYER_RADIUS,
-    PLAYER_SHOOT_COOLDOWN_SECONDS,
-    PLAYER_SHOOT_SPEED,
-    PLAYER_SPEED,
-    PLAYER_TURN_SPEED,
-    SHOT_RADIUS,
-)
 from shoot import Shot
 
 
 class Player(CircleShape):
     def __init__(self, x, y):
-        super().__init__(x, y, PLAYER_RADIUS)
+        super().__init__(x, y, constants.PLAYER_RADIUS)
         self.rotation = 0
         self.shoot_timer = 0
 
@@ -30,10 +24,10 @@ class Player(CircleShape):
         return [a, b, c]
 
     def draw(self, screen):
-        pygame.draw.polygon(screen, "white", self.triangle(), LINE_WIDTH)
+        pygame.draw.polygon(screen, "white", self.triangle(), constants.LINE_WIDTH)
 
     def rotate(self, dt):
-        self.rotation += PLAYER_TURN_SPEED * dt
+        self.rotation += constants.PLAYER_TURN_SPEED * dt
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
@@ -47,21 +41,34 @@ class Player(CircleShape):
             self.move(dt - (dt * 2))
         if keys[pygame.K_SPACE]:
             self.shoot()
+        if keys[pygame.K_o]:
+            constants.PLAYER_SHOOT_COOLDOWN_SECONDS = 0
+        if keys[pygame.K_p]:
+            constants.PLAYER_SHOOT_COOLDOWN_SECONDS = 0.3
+        if keys[pygame.K_n]:
+            constants.PLAYER_SPEED += 10
+            constants.PLAYER_TURN_SPEED += 10
+        if keys[pygame.K_m]:
+            constants.PLAYER_SPEED -= 10
+            constants.PLAYER_TURN_SPEED -= 10
+
         self.shoot_timer -= dt
+        if keys[pygame.K_ESCAPE]:
+            sys.exit()
 
     def move(self, dt):
         unit_vector = pygame.Vector2(0, 1)
         rotated_vector = unit_vector.rotate(self.rotation)
-        rotated_with_speed_vector = rotated_vector * PLAYER_SPEED * dt
+        rotated_with_speed_vector = rotated_vector * constants.PLAYER_SPEED * dt
         self.position += rotated_with_speed_vector
 
     def shoot(self):
         if self.shoot_timer > 0:
             pass
         else:
-            self.shoot_timer = PLAYER_SHOOT_COOLDOWN_SECONDS
+            self.shoot_timer = constants.PLAYER_SHOOT_COOLDOWN_SECONDS
 
-            shot = Shot(self.position.x, self.position.y, SHOT_RADIUS)
+            shot = Shot(self.position.x, self.position.y, constants.SHOT_RADIUS)
             shot.velocity = (
                 pygame.Vector2(0, 1).rotate(self.rotation)
-            ) * PLAYER_SHOOT_SPEED
+            ) * constants.PLAYER_SHOOT_SPEED

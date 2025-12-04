@@ -2,17 +2,21 @@ import sys
 
 import pygame
 
+import constants
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
-from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from logger import log_event, log_state
 from player import Player
 from shoot import Shot
 
 
 def main():
+    score = 0
     pygame.init()
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    title_font = pygame.font.SysFont(None, 100)  # Big text
+    score_font = pygame.font.SysFont(None, 50)  # Smaller text
+    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+
     clock = pygame.time.Clock()
     shots = pygame.sprite.Group()
     updatable = pygame.sprite.Group()
@@ -25,7 +29,7 @@ def main():
 
     Player.containers = (updatable, drawable)
 
-    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    player = Player(constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2)
 
     dt = 0
 
@@ -41,13 +45,46 @@ def main():
         for aster in asteroids:
             if aster.collides_with(player):
                 log_event("player_hit")
-                print("Game over!")
+
+                # Draw Game Over text
+                title_font = pygame.font.SysFont(None, 100)
+                score_font = pygame.font.SysFont(None, 50)
+
+                game_over_surf = title_font.render("GAME OVER", True, (255, 255, 255))
+                score_surf = score_font.render(
+                    f"Your score is {score}", True, (255, 255, 255)
+                )  # add real score later
+
+                game_over_rect = game_over_surf.get_rect(
+                    center=(
+                        constants.SCREEN_WIDTH // 2,
+                        constants.SCREEN_HEIGHT // 2 - 40,
+                    )
+                )
+                score_rect = score_surf.get_rect(
+                    center=(
+                        constants.SCREEN_WIDTH // 2,
+                        constants.SCREEN_HEIGHT // 2 + 40,
+                    )
+                )
+
+                # Fill and draw
+                screen.fill("black")
+                screen.blit(game_over_surf, game_over_rect)
+                screen.blit(score_surf, score_rect)
+                pygame.display.flip()
+
+                # Wait 10 seconds
+                pygame.time.wait(10000)
+
                 sys.exit()
+
             for shot in shots:
                 if aster.collides_with(shot):
                     log_event("asteroid_shot")
                     shot.kill()
                     aster.split()
+                    score += 1
         screen.fill("black")
 
         for obj in drawable:
