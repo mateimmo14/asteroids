@@ -52,8 +52,8 @@ def main():
 
                 game_over_surf = title_font.render("GAME OVER", True, (255, 255, 255))
                 score_surf = score_font.render(
-                    f"Your score is {score}", True, (255, 255, 255)
-                )  # add real score later
+                    f"Your score is {score}. Restarting game...", True, (255, 255, 255)
+                )
 
                 game_over_rect = game_over_surf.get_rect(
                     center=(
@@ -72,13 +72,13 @@ def main():
                 screen.fill("black")
                 screen.blit(game_over_surf, game_over_rect)
                 screen.blit(score_surf, score_rect)
+
                 pygame.display.flip()
 
                 # Wait 10 seconds
-                pygame.time.wait(10000)
+                pygame.time.wait(5000)
 
-                sys.exit()
-
+                constants.restart_program()
             for shot in shots:
                 if aster.collides_with(shot):
                     log_event("asteroid_shot")

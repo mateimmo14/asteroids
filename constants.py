@@ -1,3 +1,4 @@
+import os, sys
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 LINE_WIDTH = 2
@@ -14,3 +15,7 @@ ASTEROID_MAX_RADIUS = ASTEROID_MIN_RADIUS * ASTEROID_KINDS
 SHOT_RADIUS = 5
 PLAYER_SHOOT_SPEED = 500
 PLAYER_SHOOT_COOLDOWN_SECONDS = 0.3
+
+
+def restart_program():
+    os.execv(sys.executable, ['python'] + sys.argv)

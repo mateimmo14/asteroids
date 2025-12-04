@@ -55,6 +55,8 @@ class Player(CircleShape):
         self.shoot_timer -= dt
         if keys[pygame.K_ESCAPE]:
             sys.exit()
+        if keys[pygame.K_r]:
+            constants.restart_program()
 
     def move(self, dt):
         unit_vector = pygame.Vector2(0, 1)
