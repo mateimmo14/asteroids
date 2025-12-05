@@ -53,33 +53,7 @@ class Player(CircleShape):
         if keys[pygame.K_SPACE]:
             self.shoot()
 
-            # -------- MINIGUN LOGIC --------
-            # Press O to activate minigun if it's not already active
-            # -------- MINIGUN LOGIC (15s on, 15s cooldown) --------
-
-            # 1. Press O → activate minigun ONLY if ready
-        if keys[pygame.K_o] and self.minigun_timer_on <= 0 and self.minigun_timer <= 0:
-            self.minigun_timer_on = constants.PLAYER_MINIGUN_SECONDS  # active for 15s
-
-            self.minigun_timer = 15  # cooldown after it ends
-
-            # 2. Minigun ACTIVE
-        if self.minigun_timer_on > 0:
-            self.minigun_timer_on -= dt
-            constants.PLAYER_SHOOT_COOLDOWN_SECONDS = 0   # full auto
-
-            # 3. Minigun on cooldown
-
-        elif self.minigun_timer > 0:
-            self.minigun_timer -= dt
-            constants.PLAYER_SHOOT_COOLDOWN_SECONDS = 0.3  # normal shooting
-
-            # 4. Fully ready again
-        else:
-            constants.PLAYER_SHOOT_COOLDOWN_SECONDS = 0.3
-
-            # -------- END MINIGUN LOGIC --------
-
+           
         if keys[pygame.K_n]:
             constants.PLAYER_SPEED += 10
             constants.PLAYER_TURN_SPEED += 10
