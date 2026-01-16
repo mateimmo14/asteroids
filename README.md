@@ -1,1 +1,12 @@
-run the app with asteroids.exe
+ASTEROIDS V2.0.0
+CONTROLS:
+  W,A,S,D = MOVEMENT
+  L = LASER (TO BE REWORKED SOON)
+SHIP COLORS:
+  1 = BLACK
+  2 = RED
+  3 = GREEN
+  4 = BLUE
+OUTLINE COLORS WILL COME IN 2.1.0
+
+  
