@@ -1,5 +1,5 @@
 import sys
-
+import time
 import pygame
 
 import constants
@@ -12,6 +12,7 @@ from shoot import Shot
 
 def main():
     playtime = 0
+    game_over = False
     score = 0
     pygame.init()
     title_font = pygame.font.SysFont(None, 100)  # Big text
@@ -40,13 +41,17 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+            if game_over and event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    constants.restart_program()
 
-
-        updatable.update(dt)
+        if not game_over:
+            updatable.update(dt)
 
         for aster in asteroids:
             if aster.collides_with(player):
                 log_event("player_hit")
+                game_over = True
 
                 # Draw Game Over text
                 title_font = pygame.font.SysFont(None, 100)
@@ -54,7 +59,7 @@ def main():
 
                 game_over_surf = title_font.render("GAME OVER", True, (255, 255, 255))
                 score_surf = score_font.render(
-                    f"Your score is {score}. Restarting game...", True, (255, 255, 255)
+                    f"Your score is {score}. Press R to restart", True, (255, 255, 255)
                 )
 
                 game_over_rect = game_over_surf.get_rect(
@@ -71,16 +76,15 @@ def main():
                 )
 
                 # Fill and draw
-                screen.fill("black")
-                screen.blit(game_over_surf, game_over_rect)
-                screen.blit(score_surf, score_rect)
+
 
                 pygame.display.flip()
 
                 # Wait 10 seconds
-                pygame.time.wait(5000)
 
-                constants.restart_program()
+
+
+
             for shot in shots:
                 if aster.collides_with(shot):
                     log_event("asteroid_shot")
@@ -88,9 +92,12 @@ def main():
                     aster.split()
                     score += 1
         screen.fill("black")
-
-        for obj in drawable:
-            obj.draw(screen)
+        if game_over:
+            screen.blit(game_over_surf, game_over_rect)
+            screen.blit(score_surf, score_rect)
+        else:
+            for obj in drawable:
+                obj.draw(screen)
 
         pygame.display.flip()
 
