@@ -1,1 +1,1 @@
-MAKE SURE TO USE UV RUN MAIN.PY WHEN RUNNING IT
+run the app with asteroids.exe
