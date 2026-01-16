@@ -46,6 +46,8 @@ def main():
             if game_over and event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
                     constants.restart_program()
+                if event.key == pygame.K_ESCAPE:
+                    sys.exit()
 
         if not game_over:
             updatable.update(dt)
@@ -60,7 +62,7 @@ def main():
 
                 game_over_surf = title_font.render("GAME OVER", True, (255, 255, 255))
                 score_surf = score_font.render(
-                    f"Your score is {score}. Press R to restart", True, (255, 255, 255)
+                    f"Your score is {score}.Press R to go back to the main menu or press Esc to exit", True, (255, 255, 255)
                 )
 
                 game_over_rect = game_over_surf.get_rect(
