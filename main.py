@@ -15,8 +15,11 @@ def main():
     game_over = False
     score = 0
     pygame.init()
-    title_font = pygame.font.SysFont(None, 100)  # Big text
-    score_font = pygame.font.SysFont(None, 50)  # Smaller text
+    font_path = pygame.font.match_font(pygame.font.get_default_font())
+    title_font = pygame.font.Font(font_path, 100)
+    score_font = pygame.font.Font(font_path, 50)
+
+
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
 
     clock = pygame.time.Clock()
@@ -54,8 +57,8 @@ def main():
                 game_over = True
 
                 # Draw Game Over text
-                title_font = pygame.font.SysFont(None, 100)
-                score_font = pygame.font.SysFont(None, 50)
+                title_font = pygame.font.Font(None, 100)
+                score_font = pygame.font.Font(None, 50)
 
                 game_over_surf = title_font.render("GAME OVER", True, (255, 255, 255))
                 score_surf = score_font.render(
