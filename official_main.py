@@ -1,7 +1,7 @@
 import sys
 import time
 import pygame
-
+import os
 import constants
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
@@ -12,14 +12,24 @@ from shoot import Shot
 
 def main():
     playtime = 0
+    paused = False
+
     game_over = False
     score = 0
     pygame.init()
 
     title_font = pygame.font.Font(None, 100)
     score_font = pygame.font.Font(None, 50)
+    if getattr(sys, 'frozen', False):
+        # Running as a PyInstaller executable
+        base_path = sys._MEIPASS
+    else:
+        # Running as a script
+        base_path = os.path.dirname(__file__)
 
-    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+    background_path = os.path.join(base_path, "assets","Background.png")
+    background = pygame.image.load(background_path)
+    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT),pygame.RESIZABLE)
 
     clock = pygame.time.Clock()
     shots = pygame.sprite.Group()
@@ -46,8 +56,11 @@ def main():
             if game_over and event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
                     constants.restart_program()
+
                 if event.key == pygame.K_ESCAPE:
                     sys.exit()
+
+
 
         if not game_over:
             updatable.update(dt)
@@ -62,7 +75,7 @@ def main():
 
                 game_over_surf = title_font.render("GAME OVER", True, (255, 255, 255))
                 score_surf = score_font.render(
-                    f"Your score is {score}.Press R to go back to the main menu or press Esc to exit", True, (255, 255, 255)
+                    f"Your score is {score}. Press R to go back to the main menu or press Esc to exit", True, (255, 255, 255)
                 )
 
                 game_over_rect = game_over_surf.get_rect(
@@ -90,7 +103,8 @@ def main():
                     shot.kill()
                     aster.split()
                     score += 1
-        screen.fill("black")
+        screen.blit(background, (0, 0))  # draw the background
+
         if game_over:
             screen.blit(game_over_surf, game_over_rect)
             screen.blit(score_surf, score_rect)
