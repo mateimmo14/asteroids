@@ -52,12 +52,14 @@ def main(difficulty, minigun=False, tank=False):
 
     background_path = os.path.join(base_path, "assets","Background.png")
     background = pygame.image.load(background_path)
-    screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT),pygame.RESIZABLE)
+    window = pygame.display.set_mode(
+        (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT),
+        pygame.RESIZABLE
+    )
 
-
-
-
-
+    game_surface = pygame.Surface(
+        (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
+    )
 
     dt = 0
 
@@ -76,6 +78,11 @@ def main(difficulty, minigun=False, tank=False):
             if game_over and event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
                     constants.restart_program()
+            if event.type == pygame.VIDEORESIZE:
+                window = pygame.display.set_mode(
+                    (event.w, event.h),
+                    pygame.RESIZABLE
+                )
 
 
 
@@ -134,19 +141,30 @@ def main(difficulty, minigun=False, tank=False):
                         shot.kill()
                         aster.split(tank)
                     score += 1
-            screen.blit(background, (0, 0))  # draw the background
+            game_surface.blit(background, (0, 0))  # draw the background
+            game_surface.fill((0, 0, 0))
+
+            game_surface.blit(background, (0, 0))
 
             if game_over:
-                screen.blit(game_over_surf, game_over_rect)
-                screen.blit(score_surf, score_rect)
+                game_surface.blit(game_over_surf, game_over_rect)
+                game_surface.blit(score_surf, score_rect)
                 if not minigun:
                     high_score(score,tank,difficulty)
 
             else:
                 for obj in drawable:
-                    obj.draw(screen)
+                    obj.draw(game_surface)
 
+        scaled_surface = pygame.transform.smoothscale(
+            game_surface,
+            window.get_size()
+        )
+
+        window.blit(scaled_surface, (0, 0))
         pygame.display.flip()
+
+
 
         # limit the framerate to 60 FPS
         dt = clock.tick(60) / 1000
