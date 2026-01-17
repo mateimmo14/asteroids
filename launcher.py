@@ -5,9 +5,24 @@ import pygame
 import sys
 import os
 from high_score import get_high_score_path
+import os
 def main():
-    with open(get_high_score_path(), "r") as f:
-        high_score = int(f.read())
+
+
+    high_score_path = get_high_score_path()
+    if not os.path.exists(high_score_path):
+        # Create the file with default high score
+        with open(high_score_path, "w") as f:
+            f.write("0")
+
+    # Now safely read the high score
+    with open(high_score_path, "r") as f:
+        content = f.read().strip()
+        if content == "":
+            high_score = 0
+        else:
+            high_score = int(content)
+
     # -----------------------------
     # INITIALIZE TKINTER WINDOW
     # -----------------------------
