@@ -6,7 +6,8 @@ import sys
 import os
 
 def main():
-
+    with open("high_score.txt", "r") as f:
+        high_score = int(f.read())
     # -----------------------------
     # INITIALIZE TKINTER WINDOW
     # -----------------------------
@@ -76,6 +77,12 @@ def main():
             font=("Sans Serif", 48, "bold"),
             fill="white"
         )
+        canvas.create_text(
+            640, 325,
+            text=f"Your highest score is {high_score}",
+            font=("Sans Serif", 24, "bold"),
+            fill="white"
+        )
 
         # Launch Buttons
         canvas.create_window(640, 150, window=tk.Button(
@@ -89,7 +96,7 @@ def main():
             command=launch_easy
         ))
 
-        canvas.create_window(640, 300, window=tk.Button(
+        canvas.create_window(640, 250, window=tk.Button(
             root,
             text="Press to launch hard mode",
             bg="red",

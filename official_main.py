@@ -8,7 +8,7 @@ from asteroidfield import AsteroidField
 import launcher
 from player import *
 from shoot import Shot
-
+from high_score import high_score
 clock = pygame.time.Clock()
 shots = pygame.sprite.Group()
 updatable = pygame.sprite.Group()
@@ -98,6 +98,7 @@ def main(difficulty):
                 game_over_surf = title_font.render("GAME OVER", True, (255, 255, 255))
                 score_surf = score_font.render(
                     f"Your score is {score}. Press R to go back to the main menu", True, (255, 255, 255)
+
                 )
 
                 game_over_rect = game_over_surf.get_rect(
@@ -130,6 +131,8 @@ def main(difficulty):
             if game_over:
                 screen.blit(game_over_surf, game_over_rect)
                 screen.blit(score_surf, score_rect)
+                high_score(score)
+
             else:
                 for obj in drawable:
                     obj.draw(screen)
