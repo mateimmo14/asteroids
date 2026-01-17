@@ -10,9 +10,11 @@ from player import *
 from shoot import Shot
 
 
+
+
 def main(difficulty):
     playtime = 0
-    paused = False
+
     if difficulty:
         constants.ASTEROID_KINDS = 5
         constants.ASTEROID_MIN_RADIUS = 30
@@ -60,14 +62,23 @@ def main(difficulty):
                 if event.key == pygame.K_r:
                     constants.restart_program()
 
+
+
                 if event.key == pygame.K_ESCAPE:
                     sys.exit()
 
 
 
         if not game_over:
-            updatable.update(dt)
 
+            updatable.update(dt)
+        if constants.PAUSED:
+            constants.PLAYER_SPEED = 0
+            constants.PLAYER_TURN_SPEED = 0
+
+        if not constants.PAUSED:
+            constants.PLAYER_TURN_SPEED = 300
+            constants.PLAYER_SPEED = 200
         for aster in asteroids:
             if aster.collides_with(player):
 
@@ -106,14 +117,14 @@ def main(difficulty):
                     shot.kill()
                     aster.split()
                     score += 1
-        screen.blit(background, (0, 0))  # draw the background
+            screen.blit(background, (0, 0))  # draw the background
 
-        if game_over:
-            screen.blit(game_over_surf, game_over_rect)
-            screen.blit(score_surf, score_rect)
-        else:
-            for obj in drawable:
-                obj.draw(screen)
+            if game_over:
+                screen.blit(game_over_surf, game_over_rect)
+                screen.blit(score_surf, score_rect)
+            else:
+                for obj in drawable:
+                    obj.draw(screen)
 
         pygame.display.flip()
 

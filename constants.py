@@ -16,6 +16,7 @@ SHOT_RADIUS = 5
 PLAYER_SHOOT_SPEED = 500
 PLAYER_SHOOT_COOLDOWN_SECONDS = 0.3
 
+PAUSED = False
 
 def restart_program():
     os.execv(sys.executable, ['python'] + sys.argv)

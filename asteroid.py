@@ -31,17 +31,20 @@ class Asteroid(CircleShape):
         self.shape = self.generate_polygon()
 
     def draw(self, screen):
-        transformed_points = [
+
+            transformed_points = [
             point.rotate(self.rotation) * self.visual_scale + self.position
             for point in self.shape
         ]
 
-        pygame.draw.polygon(screen, (65, 65, 65), transformed_points)
-        pygame.draw.polygon(screen, (20, 20, 20), transformed_points, 3)
+            pygame.draw.polygon(screen, (65, 65, 65), transformed_points)
+            pygame.draw.polygon(screen, (20, 20, 20), transformed_points, 3)
 
     def update(self, dt):
-        self.position += self.velocity * dt
-        self.rotation += self.rotation_speed * dt
+
+        if not constants.PAUSED:
+            self.position += self.velocity * dt
+            self.rotation += self.rotation_speed * dt
 
     def split(self):
         self.kill()
