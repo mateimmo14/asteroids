@@ -8,7 +8,7 @@ from asteroidfield import AsteroidField
 import launcher
 from player import *
 from shoot import Shot
-from high_score import high_score
+from high_score import high_score, get_high_score_path
 clock = pygame.time.Clock()
 shots = pygame.sprite.Group()
 updatable = pygame.sprite.Group()

@@ -9,3 +9,14 @@ def get_high_score_path():
         # Running as script
         base_path = os.path.dirname(__file__)
     return os.path.join(base_path, "high_score.txt")
+
+def high_score(score):
+    with open (get_high_score_path(), "w+") as f:
+        f.seek(0)
+        high_score = f.read()
+        if high_score.strip() == "":
+            f.write(str(score))
+            return False
+        elif int(high_score.strip()) > score:
+            f.write(str(score))
+            return True

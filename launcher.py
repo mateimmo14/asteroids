@@ -4,9 +4,9 @@ import constants
 import pygame
 import sys
 import os
-
+from high_score import get_high_score_path
 def main():
-    with open("high_score.txt", "r") as f:
+    with open(get_high_score_path(), "r") as f:
         high_score = int(f.read())
     # -----------------------------
     # INITIALIZE TKINTER WINDOW
