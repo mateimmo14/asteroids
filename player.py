@@ -15,6 +15,7 @@ class Player(CircleShape):
         self.shoot_timer=0
 
         self.color = "black"
+        self.outline = "white"
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -26,7 +27,7 @@ class Player(CircleShape):
 
     def draw(self, screen):
         pygame.draw.polygon(screen, self.color, self.triangle())  # filled
-        pygame.draw.polygon(screen, "white", self.triangle(), 3)
+        pygame.draw.polygon(screen, self.outline, self.triangle(), 3)
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         if constants.ACTIVATE_LASER == True:
            # Start at the player's position
@@ -54,10 +55,9 @@ class Player(CircleShape):
             self.move(dt - (dt * 2))
         if keys[pygame.K_SPACE]:
             self.shoot()
-        if keys[pygame.K_p]:
+        if keys[pygame.K_ESCAPE]:
             constants.PAUSED = True
-        if keys[pygame.K_o]:
-            constants.PAUSED = False
+
 
            
         if keys[pygame.K_n]:
@@ -71,8 +71,7 @@ class Player(CircleShape):
             constants.ACTIVATE_LASER = True
 
         self.shoot_timer -= dt
-        if keys[pygame.K_ESCAPE]:
-            sys.exit()
+
         if keys[pygame.K_r]:
             constants.restart_program()
         if keys[pygame.K_1]:

@@ -5,15 +5,27 @@ import os
 import constants
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
-
+import launcher
 from player import *
 from shoot import Shot
 
-
-
+clock = pygame.time.Clock()
+shots = pygame.sprite.Group()
+updatable = pygame.sprite.Group()
+drawable = pygame.sprite.Group()
+asteroids = pygame.sprite.Group()
+Shot.containers = (shots, updatable, drawable)
+Asteroid.containers = (asteroids, updatable, drawable)
+AsteroidField.containers = updatable
+asteroid_field = AsteroidField()
+Player.containers = (updatable, drawable)
+player = Player(constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2)
+menu_open = False
 
 def main(difficulty):
     playtime = 0
+    pygame.init()
+
 
     if difficulty:
         constants.ASTEROID_KINDS = 5
@@ -21,7 +33,7 @@ def main(difficulty):
         constants.PLAYER_SHOOT_COOLDOWN_SECONDS = 0.3
     game_over = False
     score = 0
-    pygame.init()
+
 
     title_font = pygame.font.Font(None, 100)
     score_font = pygame.font.Font(None, 50)
@@ -36,24 +48,21 @@ def main(difficulty):
     background = pygame.image.load(background_path)
     screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT),pygame.RESIZABLE)
 
-    clock = pygame.time.Clock()
-    shots = pygame.sprite.Group()
-    updatable = pygame.sprite.Group()
-    drawable = pygame.sprite.Group()
-    asteroids = pygame.sprite.Group()
-    Shot.containers = (shots, updatable, drawable)
-    Asteroid.containers = (asteroids, updatable, drawable)
-    AsteroidField.containers = updatable
-    asteroid_field = AsteroidField()
 
-    Player.containers = (updatable, drawable)
 
-    player = Player(constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2)
+
+
 
     dt = 0
 
     while True:
+        global menu_open
 
+
+        if constants.PAUSED and not menu_open:
+            menu_open = True
+            launcher.main()
+            menu_open = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -64,8 +73,7 @@ def main(difficulty):
 
 
 
-                if event.key == pygame.K_ESCAPE:
-                    sys.exit()
+
 
 
 
