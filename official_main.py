@@ -22,9 +22,15 @@ Player.containers = (updatable, drawable)
 player = Player(constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2)
 menu_open = False
 
-def main(difficulty):
+def main(difficulty, minigun=False, tank=False):
     playtime = 0
     pygame.init()
+    if minigun:
+        constants.PLAYER_SHOOT_COOLDOWN_SECONDS = 0
+    elif tank:
+        constants.PLAYER_SHOOT_COOLDOWN_SECONDS = 2
+        constants.SHOT_RADIUS = 10
+        constants.ASTEROID_SPAWN_RATE_SECONDS=0.7
 
 
     if difficulty:
@@ -122,16 +128,19 @@ def main(difficulty):
 
             for shot in shots:
                 if aster.collides_with(shot):
-
-                    shot.kill()
-                    aster.split()
+                    if tank:
+                        aster.kill()
+                    if not tank:
+                        shot.kill()
+                        aster.split(tank)
                     score += 1
             screen.blit(background, (0, 0))  # draw the background
 
             if game_over:
                 screen.blit(game_over_surf, game_over_rect)
                 screen.blit(score_surf, score_rect)
-                high_score(score)
+                if not minigun:
+                    high_score(score,tank,difficulty)
 
             else:
                 for obj in drawable:

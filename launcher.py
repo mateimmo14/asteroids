@@ -33,7 +33,7 @@ def main():
     # -----------------------------
     # STORE SELECTED OPTIONS
     # -----------------------------
-    result = {"difficulty": None}  # False = normal, True = hard
+    result = {"difficulty": None, "minigun" : False, "tank" : False}  # False = normal, True = hard
 
     # -----------------------------
     # COLOR HANDLING
@@ -50,6 +50,9 @@ def main():
     def launch_easy():
         result["difficulty"] = False
         root.destroy()
+    def launch_easy():
+        result["difficulty"] = False
+        root.destroy()
 
     def launch_hard():
         result["difficulty"] = True
@@ -62,6 +65,14 @@ def main():
     def exit_game():
         pygame.quit()
         sys.exit()
+    def launch_minigun():
+        result["difficulty"] = False
+        result["minigun"] = True
+        root.destroy()
+    def launch_tank():
+        result["difficulty"] = False
+        result["tank"] = True
+        root.destroy()
 
     # -----------------------------
     # BACKGROUND IMAGE
@@ -93,7 +104,7 @@ def main():
             fill="white"
         )
         canvas.create_text(
-            640, 325,
+            640, 344,
             text=f"Your highest score is {high_score}",
             font=("Sans Serif", 24, "bold"),
             fill="white"
@@ -111,7 +122,7 @@ def main():
             command=launch_easy
         ))
 
-        canvas.create_window(640, 250, window=tk.Button(
+        canvas.create_window(470, 250, window=tk.Button(
             root,
             text="Press to launch hard mode",
             bg="red",
@@ -121,6 +132,24 @@ def main():
             height=2,
             command=launch_hard
         ))
+        canvas.create_window(640, 700, window=tk.Button(
+            root,
+            text="Press to launch minigun mode (high scores disabled)",
+            bg="green",
+            fg="white",
+            font=("Sans Serif", 7, "bold"),
+            width=40,
+            height=3,
+            command=launch_minigun))
+        canvas.create_window(820, 250, window=tk.Button(
+            root,
+            text="Press to launch Tank mode",
+            bg="orange",
+            fg="white",
+            font=("Sans Serif", 18, "bold"),
+            width=22,
+            height=2,
+            command=launch_tank))
 
     else:
         # -----------------------------
@@ -232,13 +261,13 @@ def main():
     # -----------------------------
     root.mainloop()
 
-    return result["difficulty"]
+    return result["difficulty"], result["minigun"], result["tank"]
 
 
 # -----------------------------
 # ENTRY POINT
 # -----------------------------
 if __name__ == "__main__":
-    chosen_difficulty = main()
+    chosen_difficulty, minigun, tank = main()
     if chosen_difficulty is not None:
-        official_main.main(chosen_difficulty)
+        official_main.main(chosen_difficulty, minigun,tank)

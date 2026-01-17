@@ -9,6 +9,8 @@ from circleshape import CircleShape
 
 class Asteroid(CircleShape):
     def generate_polygon(self):
+        if constants.PAUSED:
+            return
         points = []
         vertex_count = random.randint(8, 14)
 
@@ -42,25 +44,29 @@ class Asteroid(CircleShape):
 
     def update(self, dt):
 
-        if not constants.PAUSED:
-            self.position += self.velocity * dt
-            self.rotation += self.rotation_speed * dt
-
-    def split(self):
-        self.kill()
-
-        if self.radius <= constants.ASTEROID_MIN_RADIUS:
+        if constants.PAUSED:
             return
+        self.position += self.velocity * dt
+        self.rotation += self.rotation_speed * dt
 
-        angle = random.uniform(20, 50)
-        new_radius = self.radius - constants.ASTEROID_MIN_RADIUS
+    def split(self, tank=False):
+        if constants.PAUSED:
+            return
+        self.kill()
+        if not tank:
 
-        vector1 = self.velocity.rotate(angle)
-        vector2 = self.velocity.rotate(-angle)
+            if self.radius <= constants.ASTEROID_MIN_RADIUS:
+                return
 
-        asteroid1 = Asteroid(self.position.x, self.position.y, new_radius)
-        asteroid2 = Asteroid(self.position.x, self.position.y, new_radius)
+            angle = random.uniform(20, 50)
+            new_radius = self.radius - constants.ASTEROID_MIN_RADIUS
 
-        asteroid1.velocity = vector1 * 1.2
-        asteroid2.velocity = vector2 * 1.2
+            vector1 = self.velocity.rotate(angle)
+            vector2 = self.velocity.rotate(-angle)
+
+            asteroid1 = Asteroid(self.position.x, self.position.y, new_radius)
+            asteroid2 = Asteroid(self.position.x, self.position.y, new_radius)
+
+            asteroid1.velocity = vector1 * 1.2
+            asteroid2.velocity = vector2 * 1.2
 
