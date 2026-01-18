@@ -30,6 +30,8 @@ def main():
     root.title("Asteroids Menu")
     root.geometry("1280x720")
 
+
+
     # -----------------------------
     # STORE SELECTED OPTIONS
     # -----------------------------
@@ -63,6 +65,7 @@ def main():
         constants.PAUSED = False
         root.destroy()
         return
+
 
 
     def exit_game():
@@ -176,7 +179,7 @@ def main():
             command=unpause_game
         ))
 
-        canvas.create_window(640, 320, window=tk.Button(
+        canvas.create_window(800, 320, window=tk.Button(
             root,
             text="EXIT",
             bg="red",
@@ -185,6 +188,16 @@ def main():
             width=15,
             height=2,
             command=exit_game
+        ))
+        canvas.create_window(500, 320, window=tk.Button(
+            root,
+            text="MAIN MENU",
+            bg="orange",
+            fg="white",
+            font=("Sans Serif", 20, "bold"),
+            width=15,
+            height=2,
+            command=constants.restart_program
         ))
 
 
