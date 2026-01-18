@@ -108,7 +108,7 @@ def main(difficulty, minigun=False, tank=False):
                 if event.key == pygame.K_r:
                     constants.restart_program()
 
-            if event.type == pygame.VIDEORESIZE
+            if event.type == pygame.VIDEORESIZE:
                 window = pygame.display.set_mode(
                     (event.w, event.h),
                     pygame.RESIZABLE

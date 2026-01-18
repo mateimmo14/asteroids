@@ -1,4 +1,4 @@
-import official_main
+
 import tkinter as tk
 import constants
 import pygame
@@ -6,7 +6,7 @@ import sys
 import os
 from high_score import get_high_score_path
 import os
-
+import official_main
 def main():
 
 
