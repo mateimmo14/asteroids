@@ -24,11 +24,20 @@ Player.containers = (updatable, drawable)
 player = Player(constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2)
 
 
-
-
+dt = 0
+game_surface = pygame.Surface(
+        (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
+    )
+dt = clock.tick(60) / 1000
 def main(difficulty, minigun=False, tank=False):
 
     pygame.init()
+    if getattr(sys, 'frozen', False):
+        base_font_path = sys._MEIPASS
+    else:
+        base_font_path = os.path.dirname(__file__)
+    font_path = os.path.join(base_font_path, "assets", "pixel.ttf")
+    font = pygame.font.Font(font_path, 36)  # None = default font, 36 = size
 
     if minigun:
         constants.PLAYER_SHOOT_COOLDOWN_SECONDS = 0
@@ -65,9 +74,7 @@ def main(difficulty, minigun=False, tank=False):
 
 
 
-    game_surface = pygame.Surface(
-        (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
-    )
+
 
     dt = 0
 
@@ -79,6 +86,8 @@ def main(difficulty, minigun=False, tank=False):
                 if not constants.menu_open:
                     launcher.main()
                     constants.menu_open = True
+                for obj in drawable:
+                    obj.draw(game_surface)
                 clock.tick(60)
 
                 if not constants.PAUSED:
@@ -147,7 +156,13 @@ def main(difficulty, minigun=False, tank=False):
         # ===== RENDERING =====
         game_surface.fill((0, 0, 0))
         game_surface.blit(background, (0, 0))
+        if tank:
+            score_text = font.render(f"Score: {score * 1.5}", True, (255, 255, 255))
+        elif difficulty:
+            score_text = font.render(f"Score: {score * 2}", True, (255, 255, 255))
 
+        else:
+            score_text = font.render(f"Score: {score}", True, (255, 255, 255))
         if game_over:
             game_surface.blit(game_over_surf, game_over_rect)
             game_surface.blit(score_surf, score_rect)
@@ -157,12 +172,14 @@ def main(difficulty, minigun=False, tank=False):
             for obj in drawable:
                 obj.draw(game_surface)
 
+
         scaled_surface = pygame.transform.smoothscale(
             game_surface,
             window.get_size()
         )
 
         window.blit(scaled_surface, (0, 0))
+        window.blit(score_text, (10, 10))
         pygame.display.flip()
 
         dt = clock.tick(60) / 1000

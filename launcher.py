@@ -6,6 +6,7 @@ import sys
 import os
 from high_score import get_high_score_path
 import os
+
 def main():
 
 
@@ -42,6 +43,9 @@ def main():
     # -----------------------------
     def set_player_color(color_name):
         official_main.player.color = color_name
+        official_main.updatable.update(official_main.dt)
+
+
 
     def set_outline_color(color_name):
         official_main.player.outline = color_name
