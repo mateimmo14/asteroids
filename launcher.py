@@ -210,7 +210,7 @@ def main():
     # COLOR MENU
     # -----------------------------
     menu_frame = tk.Frame(root, bg=None, bd=0, highlightthickness=0)
-    canvas.create_window(640, 500, window=menu_frame)
+    canvas.create_window(600, 500, window=menu_frame)
 
     for i in range(4):
         menu_frame.columnconfigure(i, weight=1)
@@ -224,13 +224,15 @@ def main():
         text="Character colors",
         font=title_font,
         bg=None
-    ).grid(row=0, column=0, columnspan=4, pady=(0, 10))
+    ).grid(row=0, column=0, columnspan=6, pady=(0, 10))
 
     colors = [
         ("Black", "black"),
         ("Red", "red"),
         ("Green", "green"),
-        ("Blue", "blue")
+        ("Blue", "blue"),
+        ("Purple", "purple"),
+        ("Orange", "orange")
     ]
 
     for col, (name, color) in enumerate(colors):
@@ -253,7 +255,7 @@ def main():
         text="Outline colors",
         font=title_font,
         bg=None
-    ).grid(row=2, column=0, columnspan=4, pady=(20, 10))
+    ).grid(row=2, column=0, columnspan=6, pady=(20, 10))
 
     for col, (name, color) in enumerate(colors):
         tk.Button(

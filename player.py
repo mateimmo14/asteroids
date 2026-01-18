@@ -26,14 +26,22 @@ class Player(CircleShape):
         return [a, b, c]
 
     def draw(self, screen):
-        # Draw player triangle
-        pygame.draw.polygon(screen, self.color, self.triangle())  # filled
+        if constants.ACTIVATE_LASER:
+            forward = pygame.Vector2(0, 1).rotate(self.rotation)
 
+            laser_start = self.position + forward * self.radius
+            laser_end = laser_start + forward * 6000
 
+            pygame.draw.line(
+                screen,
+                (255, 0, 0),
+                laser_start,
+                laser_end,
+                3
+            )
+
+        pygame.draw.polygon(screen, self.color, self.triangle())
         pygame.draw.polygon(screen, self.outline, self.triangle(), 3)
-
-        # Draw flame only if moving
-
 
     def rotate(self, dt):
         self.rotation += constants.PLAYER_TURN_SPEED * dt
@@ -64,8 +72,8 @@ class Player(CircleShape):
             constants.PLAYER_SPEED -= 10
             constants.PLAYER_TURN_SPEED -= 10
             forward = pygame.Vector2(0, 1).rotate(self.rotation)
-        if keys[pygame.K_l]:
-            constants.ACTIVATE_LASER = True
+
+
 
         self.shoot_timer -= dt
 

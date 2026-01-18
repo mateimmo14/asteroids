@@ -96,12 +96,19 @@ def main(difficulty, minigun=False, tank=False):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+            if event.type == pygame.KEYDOWN:
+                if pygame.key.get_pressed()[pygame.K_l]:
+                    if constants.ACTIVATE_LASER:
+                        constants.ACTIVATE_LASER = False
+                    elif not constants.ACTIVATE_LASER:
+
+                        constants.ACTIVATE_LASER = True
 
             if game_over and event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
                     constants.restart_program()
 
-            if event.type == pygame.VIDEORESIZE:
+            if event.type == pygame.VIDEORESIZE
                 window = pygame.display.set_mode(
                     (event.w, event.h),
                     pygame.RESIZABLE
