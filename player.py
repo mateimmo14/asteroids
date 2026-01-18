@@ -71,14 +71,6 @@ class Player(CircleShape):
 
         if keys[pygame.K_r]:
             constants.restart_program()
-        if keys[pygame.K_1]:
-            self.color = "black"
-        if keys[pygame.K_2]:
-            self.color = "red"
-        if keys[pygame.K_3]:
-            self.color = "green"
-        if keys[pygame.K_4]:
-            self.color = "blue"
 
     def move(self, dt):
         unit_vector = pygame.Vector2(0, 1)
