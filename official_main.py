@@ -1,5 +1,4 @@
-import sys
-import time
+
 import pygame
 import os
 import constants
@@ -24,11 +23,11 @@ asteroid_field = AsteroidField()
 Player.containers = (updatable, drawable)
 player = Player(constants.SCREEN_WIDTH / 2, constants.SCREEN_HEIGHT / 2)
 
-menu_open = False
+
 
 
 def main(difficulty, minigun=False, tank=False):
-    playtime = 0
+
     pygame.init()
 
     if minigun:
@@ -73,13 +72,18 @@ def main(difficulty, minigun=False, tank=False):
     dt = 0
 
     while True:
-        global menu_open
+        constants.menu_open = False
+        if constants.PAUSED:
+            while True:
 
-        if constants.PAUSED and not menu_open:
-            menu_open = True
-            launcher.main()
-            menu_open = False
+                if not constants.menu_open:
+                    launcher.main()
+                    constants.menu_open = True
+                clock.tick(60)
 
+                if not constants.PAUSED:
+                    break
+            constants.menu_open = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return

@@ -50,17 +50,20 @@ def main():
     def launch_easy():
         result["difficulty"] = False
         root.destroy()
-    def launch_easy():
-        result["difficulty"] = False
-        root.destroy()
+
+
 
     def launch_hard():
         result["difficulty"] = True
         root.destroy()
 
     def unpause_game():
+        if not constants.PAUSED:
+            return
         constants.PAUSED = False
         root.destroy()
+        return
+
 
     def exit_game():
         pygame.quit()
@@ -184,6 +187,8 @@ def main():
             command=exit_game
         ))
 
+
+
     # -----------------------------
     # COLOR MENU
     # -----------------------------
@@ -259,6 +264,8 @@ def main():
     # -----------------------------
     # RUN TKINTER LOOP
     # -----------------------------
+
+
     root.mainloop()
 
     return result["difficulty"], result["minigun"], result["tank"]

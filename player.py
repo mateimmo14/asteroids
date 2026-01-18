@@ -52,7 +52,8 @@ class Player(CircleShape):
         if keys[pygame.K_SPACE]:
             self.shoot()
         if keys[pygame.K_ESCAPE]:
-            constants.PAUSED = True
+            if not constants.PAUSED:
+                constants.PAUSED = True
 
 
            
