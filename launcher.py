@@ -21,7 +21,7 @@ def main():
         if content == "":
             high_score = 0
         else:
-            high_score = int(content)
+            high_score = float(content)
 
     # -----------------------------
     # INITIALIZE TKINTER WINDOW
