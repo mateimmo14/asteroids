@@ -1,4 +1,4 @@
-
+import threading
 import pygame
 import os
 import constants
@@ -37,7 +37,7 @@ def main(difficulty, minigun=False, tank=False):
     else:
         base_font_path = os.path.dirname(__file__)
     font_path = os.path.join(base_font_path, "assets", "pixel.ttf")
-    font = pygame.font.Font(font_path, 36)  # None = default font, 36 = size
+    font = pygame.font.Font(font_path, 36)
 
     if minigun:
         constants.PLAYER_SHOOT_COOLDOWN_SECONDS = 0
@@ -61,6 +61,7 @@ def main(difficulty, minigun=False, tank=False):
         base_path = sys._MEIPASS
     else:
         base_path = os.path.dirname(__file__)
+
     window = pygame.display.set_mode(
         (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT),
         pygame.RESIZABLE
@@ -72,13 +73,13 @@ def main(difficulty, minigun=False, tank=False):
         (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
     )
 
-
-
-
-
     dt = 0
 
     while True:
+
+        # -----------------------------
+        # PAUSE CHECK FIRST
+        # -----------------------------
         constants.menu_open = False
         if constants.PAUSED:
             while True:
@@ -86,69 +87,58 @@ def main(difficulty, minigun=False, tank=False):
                 if not constants.menu_open:
                     launcher.main()
                     constants.menu_open = True
+                player.update(dt)
                 for obj in drawable:
                     obj.draw(game_surface)
+                pygame.display.flip()
                 clock.tick(60)
 
                 if not constants.PAUSED:
                     break
             constants.menu_open = False
+
+        # -----------------------------
+        # EVENT HANDLING
+        # -----------------------------
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
             if event.type == pygame.KEYDOWN:
                 if pygame.key.get_pressed()[pygame.K_l]:
-                    if constants.ACTIVATE_LASER:
-                        constants.ACTIVATE_LASER = False
-                    elif not constants.ACTIVATE_LASER:
-
-                        constants.ACTIVATE_LASER = True
-
+                    constants.ACTIVATE_LASER = not constants.ACTIVATE_LASER
             if game_over and event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
                     constants.restart_program()
-
             if event.type == pygame.VIDEORESIZE:
                 window = pygame.display.set_mode(
                     (event.w, event.h),
                     pygame.RESIZABLE
                 )
 
+        # -----------------------------
+        # UPDATE
+        # -----------------------------
         if not game_over:
             updatable.update(dt)
 
-        if constants.PAUSED:
-            constants.PLAYER_SPEED = 0
-            constants.PLAYER_TURN_SPEED = 0
-        else:
-            constants.PLAYER_TURN_SPEED = 300
-            constants.PLAYER_SPEED = 200
-
-        # ===== COLLISIONS =====
+        # -----------------------------
+        # COLLISIONS
+        # -----------------------------
         for aster in asteroids:
             if aster.collides_with(player):
                 game_over = True
-
                 game_over_surf = title_font.render(
                     "GAME OVER", True, (255, 255, 255)
                 )
                 score_surf = score_font.render(
                     f"Your score is {score}. Press R to go back to the main menu",
-                    True,
-                    (255, 255, 255)
+                    True, (255, 255, 255)
                 )
-
                 game_over_rect = game_over_surf.get_rect(
-                    center=(
-                        constants.SCREEN_WIDTH // 2,
-                        constants.SCREEN_HEIGHT // 2 - 40,
-                    )
+                    center=(constants.SCREEN_WIDTH // 2, constants.SCREEN_HEIGHT // 2 - 40)
                 )
                 score_rect = score_surf.get_rect(
-                    center=(
-                        constants.SCREEN_WIDTH // 2,
-                        constants.SCREEN_HEIGHT // 2 + 40,
-                    )
+                    center=(constants.SCREEN_WIDTH // 2, constants.SCREEN_HEIGHT // 2 + 40)
                 )
 
             for shot in shots:
@@ -160,16 +150,19 @@ def main(difficulty, minigun=False, tank=False):
                         aster.split(tank)
                     score += 1
 
-        # ===== RENDERING =====
+        # -----------------------------
+        # RENDERING
+        # -----------------------------
         game_surface.fill((0, 0, 0))
         game_surface.blit(background, (0, 0))
+
         if tank:
             score_text = font.render(f"Score: {score * 1.5}", True, (255, 255, 255))
         elif difficulty:
             score_text = font.render(f"Score: {score * 2}", True, (255, 255, 255))
-
         else:
             score_text = font.render(f"Score: {score}", True, (255, 255, 255))
+
         if game_over:
             game_surface.blit(game_over_surf, game_over_rect)
             game_surface.blit(score_surf, score_rect)
@@ -179,14 +172,15 @@ def main(difficulty, minigun=False, tank=False):
             for obj in drawable:
                 obj.draw(game_surface)
 
-
         scaled_surface = pygame.transform.smoothscale(
             game_surface,
             window.get_size()
         )
-
         window.blit(scaled_surface, (0, 0))
         window.blit(score_text, (10, 10))
         pygame.display.flip()
 
+        # -----------------------------
+        # FRAME TIME
+        # -----------------------------
         dt = clock.tick(60) / 1000

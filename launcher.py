@@ -43,7 +43,7 @@ def main():
     # -----------------------------
     def set_player_color(color_name):
         official_main.player.color = color_name
-        official_main.updatable.update(official_main.dt)
+
 
 
 
