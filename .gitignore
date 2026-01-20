@@ -10,3 +10,4 @@ game_state.jsonl
 .venv
 game_events.jsonl
 build_log.txt
+high_score.txt
